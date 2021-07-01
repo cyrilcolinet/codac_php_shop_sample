@@ -67,14 +67,7 @@
 <!-- Begin page content -->
 <main class="flex-shrink-0">
     <div class="container">
-        <?php if (isset($_GET['userAdded'])) { ?>
-            <div class="alert alert-<?= $_GET['userAdded'] == "true" ? "success" : "danger" ?> mt-3" role="alert">
-                <?= $_GET['userAdded'] == "true"
-                    ? "Utilisateur ajouté avec succès."
-                    : "Cet utilisateur existe probablement déjà avec cet email !";
-                ?>
-            </div>
-        <?php } ?>
+        <?php include_once dirname(__FILE__) . '/alert_message.php'; ?>
         <div class="row">
             <div class="col-md-8">
                 <h1 class="mt-3">Liste des utilisateurs</h1>
@@ -85,6 +78,7 @@
                         <th scope="col">Prénom</th>
                         <th scope="col">Nom</th>
                         <th scope="col">Adresse Email</th>
+                        <th scope="col"></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -94,6 +88,10 @@
                             <td><?= $user->firstName ?></td>
                             <td><?= $user->lastName ?></td>
                             <td><?= $user->email ?></td>
+                            <td>
+                                <a class="btn btn-warning btn-sm">Modifier</a>
+                                <a class="btn btn-danger btn-sm" href="php/action/delete_user.php?id=<?= $user->id ?>">Supprimer</a>
+                            </td>
                         </tr>
                     <?php } ?>
                     </tbody>

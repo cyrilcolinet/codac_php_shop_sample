@@ -1,12 +1,11 @@
 <?php
 
 require_once dirname(__FILE__) . '/../DatabaseConnection.php';
-require_once dirname(__FILE__) . '/abstracts/AModel.php';
 
 /**
  * Class User
  */
-class User extends AModel {
+class User {
 
     public $id;
     public $firstName;
@@ -54,41 +53,84 @@ class User extends AModel {
                 ':pass' => $hash,
             )
         );
-        var_dump($user);
         return new User($user);
     }
 
     /**
-     * Get model in database
-     * @param $id
+     * Get user in database from given id
+     *
+     * @param $id int ID of user
      * @return User
      */
-    public static function getById($id = null) {
+    public static function findById($id = null) {
         $database = DatabaseConnection::getInstance();
         $user = $database->findOne("SELECT * FROM users WHERE id = :id", array(':id' => $id));
-        var_dump($user);
+        if (is_bool($user) && !$user)
+            return null;
         return new User($user);
     }
 
     /**
-     * Get all users
-     * @return array
+     * Get all users and convert data to User object
+     *
+     * @return User[] List of users
      */
     public static function getAll() {
         $database = DatabaseConnection::getInstance();
         $dbUsers = $database->find("SELECT * FROM users");
         $users = array();
 
+        // Convert array of string into User class
         foreach ($dbUsers as $dbUser)
             array_push($users, new User($dbUser));
         return $users;
     }
 
     /**
+     * Update user information
+     *
+     * @param $newValues array Values to update
+     * @return boolean True id successfully updated and false otherwise
+     */
+    public function edit($newValues) {
+        $this->firstName = isset($newValues['first_name']) ? $newValues['first_name'] : $this->firstName;
+        $this->lastName = isset($newValues['last_name']) ? $newValues['last_name'] : $this->lastName;
+        $this->email = isset($newValues['email']) ? $newValues['email'] : $this->email;
+        $this->password = isset($newValues['password']) ? md5($newValues['password']) : $this->password;
+
+        // Perform query
+        $database = DatabaseConnection::getInstance();
+        try {
+            $database->execute(
+                "UPDATE users SET first_name = :first, last_name = :last, email = :email, password = :pass WHERE id = :id",
+                array(
+                    ':first' => $this->firstName,
+                    ':last' => $this->lastName,
+                    ':email' => $this->email,
+                    ':pass' => $this->password,
+                    ':id' => $this->id, // id of user to edit
+                )
+            );
+
+            return true;
+        } catch (PDOException $err) {
+            return false;
+        }
+    }
+
+    /**
      * Delete current user
+     *
+     * @return boolean True if success, false otherwise
      */
     public function delete() {
-
+        $database = DatabaseConnection::getInstance();
+        try {
+            $database->execute("DELETE FROM users WHERE id = :id", [':id' => $this->id]);
+            return true;
+        } catch (PDOException $err) {
+            return false;
+        }
     }
 
 }

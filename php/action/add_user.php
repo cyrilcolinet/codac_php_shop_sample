@@ -1,6 +1,6 @@
 <?php
 
-include_once dirname(__FILE__) . '/../models/User.php';
+require_once dirname(__FILE__) . '/../models/User.php';
 
 if (!isset($_POST['submit']))
     return;
@@ -12,5 +12,5 @@ $success = true;
 if ($user == null) {
     $success = false;
 }
-
-header("Location: " . $_SERVER['HTTP_REFERER'] . "?userAdded=" . $success);
+$host = explode('?', $_SERVER['HTTP_REFERER']);
+header("Location: " . $host[0] . "?userAdded=" . $success);
