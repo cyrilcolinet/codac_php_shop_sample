@@ -88,6 +88,7 @@ class User {
 
     /**
      * Update user information
+     * Password cannot be updated
      *
      * @param $newValues array Values to update
      * @return boolean True id successfully updated and false otherwise
@@ -96,18 +97,16 @@ class User {
         $this->firstName = isset($newValues['first_name']) ? $newValues['first_name'] : $this->firstName;
         $this->lastName = isset($newValues['last_name']) ? $newValues['last_name'] : $this->lastName;
         $this->email = isset($newValues['email']) ? $newValues['email'] : $this->email;
-        $this->password = isset($newValues['password']) ? md5($newValues['password']) : $this->password;
 
         // Perform query
         $database = DatabaseConnection::getInstance();
         try {
             $database->execute(
-                "UPDATE users SET first_name = :first, last_name = :last, email = :email, password = :pass WHERE id = :id",
+                "UPDATE users SET first_name = :first, last_name = :last, email = :email WHERE id = :id",
                 array(
                     ':first' => $this->firstName,
                     ':last' => $this->lastName,
                     ':email' => $this->email,
-                    ':pass' => $this->password,
                     ':id' => $this->id, // id of user to edit
                 )
             );

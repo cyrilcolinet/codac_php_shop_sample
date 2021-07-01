@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.84.0">
-    <title>Sticky Footer Navbar Template · Bootstrap v5.0</title>
+    <title>CODAC SAMPLE PHP</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/sticky-footer-navbar/">
 
@@ -42,7 +42,7 @@
     <!-- Fixed navbar -->
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Shop ADMIN</a>
+            <a class="navbar-brand" href="#">Cod@c Sample</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -51,14 +51,7 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="#">Utilisateurs</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="#">Produits</a>
-                    </li>
                 </ul>
-                <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                </form>
             </div>
         </div>
     </nav>
@@ -89,7 +82,7 @@
                             <td><?= $user->lastName ?></td>
                             <td><?= $user->email ?></td>
                             <td>
-                                <a class="btn btn-warning btn-sm">Modifier</a>
+                                <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editUserModal<?= $user->id; ?>">Modifier</button>
                                 <a class="btn btn-danger btn-sm" href="php/action/delete_user.php?id=<?= $user->id ?>">Supprimer</a>
                             </td>
                         </tr>
@@ -130,6 +123,11 @@
     </div>
 </main>
 
+<?php include_once dirname(__FILE__) . '/edit_user_modals.php'; ?>
+
 </body>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
 </html>
 
