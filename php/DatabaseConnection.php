@@ -28,6 +28,7 @@ class DatabaseConnection {
 
     /**
      * Find and return multiple values
+     *
      * @param $query
      * @param $values
      * @return array
@@ -40,6 +41,7 @@ class DatabaseConnection {
 
     /**
      * Find and return only one value
+     *
      * @param $query
      * @param $values
      * @return mixed
@@ -51,20 +53,11 @@ class DatabaseConnection {
     }
 
     /**
-     * Insert into database query
-     * @param $query
-     * @param $values
-     */
-    public function insert($query, $values) {
-        $this->execute($query, $values);
-    }
-
-    /**
      * Execute query
      * @param $query
      * @param $values
      */
-    public function execute($query, $values) {
+    public function execute($query, $values = array()) {
         $statement = $this->connection->prepare($query);
         $statement->execute($values);
     }

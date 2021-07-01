@@ -33,7 +33,7 @@ class User {
         $database = DatabaseConnection::getInstance();
         $hash = md5($password);
         try {
-            $database->insert(
+            $database->execute(
                 "INSERT INTO users (first_name, last_name, email, password) VALUES (:first, :last, :email, :pass)",
                 array(
                     ':first' => $firstName,
@@ -94,8 +94,8 @@ class User {
      * @return boolean True id successfully updated and false otherwise
      */
     public function edit($newValues) {
-        $this->firstName = isset($newValues['first_name']) ? $newValues['first_name'] : $this->firstName;
-        $this->lastName = isset($newValues['last_name']) ? $newValues['last_name'] : $this->lastName;
+        $this->firstName = isset($newValues['firstName']) ? $newValues['firstName'] : $this->firstName;
+        $this->lastName = isset($newValues['lastName']) ? $newValues['lastName'] : $this->lastName;
         $this->email = isset($newValues['email']) ? $newValues['email'] : $this->email;
 
         // Perform query
